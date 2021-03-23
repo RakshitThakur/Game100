@@ -40,4 +40,11 @@ public class ObjectPool : MonoBehaviour
         }
         return null;
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Bullet"))
+        {
+            collision.gameObject.SetActive(false);
+        }
+    }
 }

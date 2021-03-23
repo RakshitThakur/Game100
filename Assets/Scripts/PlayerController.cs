@@ -2,24 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-struct touchInf
-{
-    public Vector3 touchPos;
-    public int touchID;
-    public touchInf(int touchID,Vector3 touchPos)
-    {
-        this.touchID = touchID;
-        this.touchPos = touchPos;
-    }
-};
 
 public class PlayerController : MonoBehaviour
 {
     bool touchStart = false;
     Rigidbody2D rb;
     float moveMultiplier = 100f;
-    List<touchInf> touchData = new List<touchInf>();
     Vector2 direction;
+    int leftTouch = 99;
+    Vector3 touchPos;
     [SerializeField] float moveSpeed;
     [SerializeField] Transform muzzle;
     // Start is called before the first frame update
@@ -45,27 +36,28 @@ public class PlayerController : MonoBehaviour
             Touch t = Input.GetTouch(x);
             if(t.phase == TouchPhase.Began)
             {
-                if(t.position.x > Screen.width/2)
+                if (t.position.x > Screen.width / 2)
                 {
                     Shoot();
                 }
                 else
                 {
-                    touchData.Add(new touchInf(t.fingerId, Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, transform.position.z))));
+                    leftTouch = t.fingerId;
+                    touchPos = Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, transform.position.z));
                 }
             }
-            else if(t.phase == TouchPhase.Moved && touchData[x].touchID == t.fingerId)
+            else if(t.phase == TouchPhase.Moved && leftTouch == t.fingerId)
             {
                 touchStart = true;
-                direction = (Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, transform.position.z))) - touchData[x].touchPos;
+                direction = Camera.main.ScreenToWorldPoint(new Vector3(t.position.x, t.position.y, transform.position.z)) - touchPos;
                 direction = Vector2.ClampMagnitude(direction, 1.0f);
-            }else if(t.phase == TouchPhase.Ended && t.position.x < Screen.width/2)
+            }
+            else if(t.phase == TouchPhase.Ended && leftTouch == t.fingerId)
             {
                 touchStart = false;
-                touchInf thisTouch = touchData.Find(touchInf => touchInf.touchID == t.fingerId);
-                touchData.RemoveAt(touchData.IndexOf(thisTouch));
+                leftTouch = 99;
             }
-            ++x;
+            x++;
         }
     }
     void MovePlayer()
