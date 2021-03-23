@@ -5,8 +5,10 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool SharedInstance;
-    List<GameObject> pooledObjects;
-    [SerializeField] GameObject objectToPool;
+    List<GameObject> pooledBullets;
+    List<GameObject> pooledEnemy;
+    [SerializeField] GameObject bulletToPool;
+    [SerializeField] GameObject enemyToPool;
     [SerializeField] int amountToPool;
     void Awake()
     {
@@ -15,12 +17,16 @@ public class ObjectPool : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pooledObjects = new List<GameObject>();
+        pooledBullets = new List<GameObject>();
+        pooledEnemy = new List<GameObject>();
         for(int i = 0; i < amountToPool; i++)
         {
-            GameObject tmp = (GameObject)Instantiate(objectToPool);
+            GameObject tmp = (GameObject)Instantiate(bulletToPool);
             tmp.SetActive(false);
-            pooledObjects.Add(tmp);
+            pooledBullets.Add(tmp);
+            tmp = (GameObject)Instantiate(enemyToPool);
+            tmp.SetActive(false);
+            pooledEnemy.Add(tmp);
         }
     }
 
@@ -29,22 +35,27 @@ public class ObjectPool : MonoBehaviour
     {
         
     }
-    public GameObject GetPooledObject()
+    public GameObject GetPooledBullet()
     {
         for(int i = 0; i < amountToPool; i++)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!pooledBullets[i].activeInHierarchy)
             {
-                return pooledObjects[i];
+                return pooledBullets[i];
             }
         }
         return null;
     }
-    void OnTriggerEnter2D(Collider2D collision)
+    public GameObject GetPooledEnemy()
     {
-        if(collision.gameObject.CompareTag("Bullet"))
+        for (int i = 0; i < amountToPool; i++)
         {
-            collision.gameObject.SetActive(false);
+            if (!pooledEnemy[i].activeInHierarchy)
+            {
+                return pooledEnemy[i];
+            }
         }
+        return null;
     }
+   
 }

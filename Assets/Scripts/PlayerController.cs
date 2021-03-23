@@ -69,12 +69,12 @@ public class PlayerController : MonoBehaviour
     }
     public void Shoot()
     {
-        GameObject bullet = ObjectPool.SharedInstance.GetPooledObject();
+        GameObject bullet = ObjectPool.SharedInstance.GetPooledBullet();
         if(bullet != null)
         {
             bullet.transform.position = muzzle.transform.position;
             bullet.SetActive(true);
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(10f, 0f);
+            
         }
     }
 }
