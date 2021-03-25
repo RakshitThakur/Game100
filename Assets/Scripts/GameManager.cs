@@ -8,16 +8,19 @@ public class GameManager : MonoBehaviour
     public Transform spawnPosition;
     public Canvas deathCanvas;
     int score = 0;
+    int highScore = 0;
+    public Text highscoreText;
     public Text scoreText;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         deathCanvas.enabled = false;
         Invoke("SpawnEnemy", 2f);
-        score = PlayerPrefs.GetInt("FinalScore");
-        scoreText.text = "SCORE : " + score.ToString();
+        highScore = PlayerPrefs.GetInt("FinalScore");
+        highscoreText.text = "HIGHSCORE : " + highScore.ToString();
     }
         // Update is called once per frame
         void Update()
@@ -54,8 +57,13 @@ public class GameManager : MonoBehaviour
     public void Scored()
     {
         score++;
-        PlayerPrefs.SetInt("FinalScore", score);
         scoreText.text = "SCORE : " + score.ToString();
+        if (score > highScore)
+        {
+            highScore = score;
+            highscoreText.text = "HIGHSCORE : " + highScore.ToString();
+            PlayerPrefs.SetInt("FinalScore", highScore);
+        }
     }
 
    
