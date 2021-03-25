@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     }
     public void Play()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
     public void Exit()
