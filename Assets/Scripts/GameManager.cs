@@ -9,11 +9,15 @@ public class GameManager : MonoBehaviour
     public Canvas deathCanvas;
     int score = 0;
     public Text scoreText;
+
+
     // Start is called before the first frame update
     void Start()
     {
         deathCanvas.enabled = false;
         Invoke("SpawnEnemy", 2f);
+        score = PlayerPrefs.GetInt("FinalScore");
+        scoreText.text = "SCORE : " + score.ToString();
     }
         // Update is called once per frame
         void Update()
@@ -50,6 +54,12 @@ public class GameManager : MonoBehaviour
     public void Scored()
     {
         score++;
+        PlayerPrefs.SetInt("FinalScore", score);
         scoreText.text = "SCORE : " + score.ToString();
     }
+
+   
+   
+
+   
 }
