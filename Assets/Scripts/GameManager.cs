@@ -5,20 +5,22 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Transform spawnPosition;
+    public Transform spawnPositionEnemy;
+    public Transform spawnPositionSpike;
     public Canvas deathCanvas;
     int score = 0;
     int highScore = 0;
     public Text highscoreText;
     public Text scoreText;
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        
+       
         deathCanvas.enabled = false;
         Invoke("SpawnEnemy", 2f);
+        Invoke("SpawnSpike", 2f);
         highScore = PlayerPrefs.GetInt("FinalScore");
         highscoreText.text = "HIGHSCORE : " + highScore.ToString();
     }
@@ -32,10 +34,21 @@ public class GameManager : MonoBehaviour
         GameObject enemy = ObjectPool.SharedInstance.GetPooledEnemy();
         if (enemy != null)
         {
-            enemy.transform.position = spawnPosition.position + new Vector3(Random.Range(-0.5f,0.5f), Random.Range(-4f, 4f));
-            enemy.transform.rotation = spawnPosition.rotation;
+            enemy.transform.position = spawnPositionEnemy.position + new Vector3(Random.Range(-0.5f,0.5f), Random.Range(-4f, 4f));
+            enemy.transform.rotation = spawnPositionEnemy.rotation;
             enemy.SetActive(true);
             Invoke("SpawnEnemy", 1f);
+        }
+    }
+    void SpawnSpike()
+    {
+        GameObject spike = ObjectPool.SharedInstance.GetPooledSpike();
+        if (spike != null)
+        {
+            spike.transform.position = spawnPositionSpike.position + new Vector3(Random.Range(-8f, 8f), 0);
+            spike.transform.rotation = spawnPositionSpike.rotation;
+            spike.SetActive(true);
+            Invoke("SpawnSpike", 1f);
         }
     }
     void OnTriggerExit2D(Collider2D collision)
@@ -65,9 +78,4 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("FinalScore", highScore);
         }
     }
-
-   
-   
-
-   
 }

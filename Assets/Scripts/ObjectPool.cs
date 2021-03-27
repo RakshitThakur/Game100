@@ -7,8 +7,10 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool SharedInstance;
     List<GameObject> pooledBullets;
     List<GameObject> pooledEnemy;
+    List<GameObject> pooledSpike;
     [SerializeField] GameObject bulletToPool;
     [SerializeField] GameObject enemyToPool;
+    [SerializeField] GameObject spikeToPool;
     [SerializeField] int amountToPool;
     void Awake()
     {
@@ -19,6 +21,7 @@ public class ObjectPool : MonoBehaviour
     {
         pooledBullets = new List<GameObject>();
         pooledEnemy = new List<GameObject>();
+        pooledSpike = new List<GameObject>();
         for(int i = 0; i < amountToPool; i++)
         {
             GameObject tmp = (GameObject)Instantiate(bulletToPool);
@@ -27,6 +30,9 @@ public class ObjectPool : MonoBehaviour
             tmp = (GameObject)Instantiate(enemyToPool);
             tmp.SetActive(false);
             pooledEnemy.Add(tmp);
+            tmp = (GameObject)Instantiate(spikeToPool);
+            tmp.SetActive(false);
+            pooledSpike.Add(tmp);
         }
     }
 
@@ -57,5 +63,15 @@ public class ObjectPool : MonoBehaviour
         }
         return null;
     }
-   
+    public GameObject GetPooledSpike()
+    {
+        for (int i = 0; i < amountToPool; i++)
+        {
+            if (!pooledSpike[i].activeInHierarchy)
+            {
+                return pooledSpike[i];
+            }
+        }
+        return null;
+    }
 }
