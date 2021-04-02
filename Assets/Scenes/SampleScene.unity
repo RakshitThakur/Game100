@@ -11096,6 +11096,7 @@ GameObject:
   - component: {fileID: 1574429288}
   - component: {fileID: 1574429287}
   - component: {fileID: 1574429289}
+  - component: {fileID: 1574429292}
   - component: {fileID: 1574429290}
   - component: {fileID: 1574429291}
   m_Layer: 0
@@ -11193,6 +11194,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f65ef799281b547826268ea10d8a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1574429292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574429286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e61caff10ea2ea4f8fd9e33b10cba1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathCanvas: {fileID: 342816863}
+  scoreCanvas: {fileID: 0}
 --- !u!1 &1682121804
 GameObject:
   m_ObjectHideFlags: 0
@@ -11618,7 +11633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 267.9, y: -21.740005}
+  m_AnchoredPosition: {x: 267.9, y: -21.73999}
   m_SizeDelta: {x: 160.75, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2107730144

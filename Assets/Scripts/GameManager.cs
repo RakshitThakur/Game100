@@ -64,7 +64,9 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
+       
         deathCanvas.enabled = true;
+        Tweening.tween.TweenCanvas();
         Time.timeScale = 0;
     }
     public void Scored()
