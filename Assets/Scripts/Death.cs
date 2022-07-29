@@ -19,7 +19,7 @@ public class Death : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            FindObjectOfType<GameManager>().GetComponent<GameManager>().GameOver();
+            FindObjectOfType<GameManager>().GameOver();
         }
     }
 }

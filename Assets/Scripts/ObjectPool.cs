@@ -14,6 +14,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] int amountToPool;
     void Awake()
     {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         SharedInstance = this;
     }
     // Start is called before the first frame update

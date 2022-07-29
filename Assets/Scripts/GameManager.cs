@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         deathCanvas.enabled = false;
         Invoke("SpawnEnemy", 2f);
         Invoke("SpawnSpike", 2f);
@@ -25,10 +25,7 @@ public class GameManager : MonoBehaviour
         highscoreText.text = "HIGHSCORE : " + highScore.ToString();
     }
         // Update is called once per frame
-        void Update()
-    {
-        
-    }
+    
     void SpawnEnemy()
     {
         GameObject enemy = ObjectPool.SharedInstance.GetPooledEnemy();
@@ -64,10 +61,15 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-       
-        deathCanvas.enabled = true;
-        Tweening.tween.TweenCanvas();
-        Time.timeScale = 0;
+        GameData.currentTournament.UpdateScore((success) =>
+        {
+            if (success)
+            {
+                deathCanvas.enabled = true;
+                Tweening.tween.TweenCanvas();
+                Time.timeScale = 0;
+            }
+        }, score.ToString());
     }
     public void Scored()
     {
@@ -79,5 +81,21 @@ public class GameManager : MonoBehaviour
             highscoreText.text = "HIGHSCORE : " + highScore.ToString();
             PlayerPrefs.SetInt("FinalScore", highScore);
         }
+    }
+    public void Replay()
+    {
+        GameData.currentTournament.RegisterAndStake((success) =>
+        {
+            if (success)
+            {
+                Time.timeScale = 1;
+                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            }
+        });
+    }
+    public void Exit()
+    {
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 }

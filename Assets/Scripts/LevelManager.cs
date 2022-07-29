@@ -1,29 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
+using Doss;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public TextMeshProUGUI walletBalanceText;
+
     private void Awake()
     {
-        
+        Screen.orientation = ScreenOrientation.Portrait;
     }
-    void Start()
+    private void OnDestroy()
     {
-        Screen.orientation = ScreenOrientation.Landscape;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        FetchWalletBalance();
+    }
+    private void FetchWalletBalance()
+    {
+        WalletFunctions.GetDossBalance((result, amount) =>
+        {
+            if (result)
+            {
+                print("Success");
+                walletBalanceText.text = "Doss Token : "  + amount.ToString();
+            }
+            else
+            {
+                walletBalanceText.text = "NaN";
+            }
+        }, GameData.address);
+    }
+
+    public void GetTournaments()
+    {
+        TournamentFactory.GetLiveTournaments((result, response) =>
+        {
+            Debug.Log(response.Count);
+        });
     }
     public void Play()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+        
+        SceneManager.LoadScene(2);
     }
     public void Exit()
     {
